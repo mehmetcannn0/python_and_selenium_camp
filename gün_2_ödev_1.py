@@ -27,26 +27,28 @@ def ogrenci_silme(students):
                 print(f"{ad_soyad} listede yok")    
                                
 while True: 
-    while True:
-        print("***************************")
-        print ("1-->öğrenci eklemek \n2-->öğrenci silmek \n3-->öğrenci listesini görmek \n4-->öğrencinin numarasını öğrenmek")
-        islem = input("Yapmak istediğiniz isleme numarası --> ")
+    
+    print("***************************")
+    print ("1-->öğrenci eklemek \n2-->öğrenci silmek \n3-->öğrenci listesini görmek \n4-->öğrencinin numarasını öğrenmek \nq/Q-->çıkış")
+    islem = input("Yapmak istediğiniz isleme numarası --> ")
+    
+    if (islem== "1"):
+        ogrenci_kayit()
+
+    elif (islem== "2"):
+        ogrenci_silme(students)
         
-        if (islem== "1"):
-            ogrenci_kayit()
-            break
-        elif (islem== "2"):
-            ogrenci_silme(students)
-            break
-        elif (islem== "3"):
-            print(students)
-            break
-        elif (islem== "4"):
-            ad_soyad = get_input()
-            if(ad_soyad in students):
-                print(f"girdiğiniz bilgilere sahip öğrencinin numarası --> {students.index(ad_soyad)+1}")
-            else:
-                print("girdiğiniz bilgilere sahip öğrenci bulunamadi")
+    elif (islem== "3"):
+        print(students)
+        
+    elif (islem== "4"):
+        ad_soyad = get_input()
+        if(ad_soyad in students):
+            print(f"girdiğiniz bilgilere sahip öğrencinin numarası --> {students.index(ad_soyad)+1}")
         else:
-            print("hatali giris...")
+            print("girdiğiniz bilgilere sahip öğrenci bulunamadi")
+    elif (islem=="q"or islem=="Q"):
+        break
+    else:
+        print("hatali giris...")
  
