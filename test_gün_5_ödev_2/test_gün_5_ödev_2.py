@@ -183,7 +183,86 @@ class Test_Sauce:
             self.driver.save_screenshot(f"{self.folderPath}/test_products-standard_user-secret_sauce.png")
             assert testResult
 
-        # TODO: urun fıyat uyusuyormu
-        # TODO: add to kart a tıklandıgında remove oluyor mu
-        # TODO: sepete ekleme yapıldıgında sepettekı sayı ıle uyusuyor mu
+       
+    @pytest.mark.parametrize("name,price",[("Sauce Labs Backpack","$29.99") ,("Sauce Labs Bike Light","$9.99"),("Sauce Labs Bolt T-Shirt","$15.99") ])
+    def test_product_and_price(self,name,price):
+        self.waitForElementVisible((By.ID,"user-name"))
+        usernameInput = self.driver.find_element(By.ID, "user-name")
+        self.waitForElementVisible((By.ID,"password"),10)
+        passwordInput = self.driver.find_element(By.ID,"password")
+        usernameInput.send_keys("standard_user")
+        passwordInput.send_keys("secret_sauce")
+        loginBtn = self.driver.find_element(By.ID,"login-button")
+        loginBtn.click()
+        self.waitForElementVisible((By.CLASS_NAME,"inventory_item_name"))
+        name_of_products_elements=self.driver.find_elements(By.CLASS_NAME,"inventory_item_name")
+        price_of_products_elements=self.driver.find_elements(By.CLASS_NAME,"inventory_item_price")
+        name_of_products=[]
+        price_of_products=[]
+
+        for n in name_of_products_elements:
+            name_of_products.append(n.text)
+        for p in price_of_products_elements:
+            price_of_products.append(p.text)
+
+        if(name_of_products.count(name)>0 and price_of_products.count(price)>0):
+            index_of_name=name_of_products.index(name)
+            index_of_price=price_of_products.index(price)
+            if(index_of_name==index_of_price):
+                print("test_product_and_price fonksiyonu")
+                self.driver.save_screenshot(f"{self.folderPath}/test_product_and_price-{name}-{price}.png")
+                assert index_of_name==index_of_price
+            else:
+                print("Ürün ile fiyat eşleşmiyor") 
+                print("test_product_and_price fonksiyonu")
+                self.driver.save_screenshot(f"{self.folderPath}/test_product_and_price-{name}-{price}.png")
+                assert index_of_name==index_of_price
+        else:    
+            print("Ürün yada fiyat bulunamadı") 
+            print("test_product_and_price fonksiyonu")
+            self.driver.save_screenshot(f"{self.folderPath}/test_product_and_price-{name}-{price}.png")
+            assert name_of_products.count(name)>0 and price_of_products.count(price)>0
+
+
+    @pytest.mark.parametrize("index",[1,2,3,4])
+    def test_add_to_cart_button(self,index):
+        self.waitForElementVisible((By.ID,"user-name"))
+        
+        usernameInput = self.driver.find_element(By.ID, "user-name")
+        passwordInput = self.driver.find_element(By.ID,"password")
+        usernameInput.send_keys("standard_user")
+        passwordInput.send_keys("secret_sauce")
+        loginBtn = self.driver.find_element(By.ID,"login-button")
+        loginBtn.click()
+        
+        self.waitForElementVisible((By.CLASS_NAME,"btn_inventory"))
+        add_and_remove_card_btns=self.driver.find_elements(By.CLASS_NAME,"btn_inventory")
+
+        if(add_and_remove_card_btns[index].text=="Add to cart"):
+
+            add_and_remove_card_btns[index].click()            
+            add_and_remove_card_btns=[]
+            add_and_remove_card_btns=self.driver.find_elements(By.CLASS_NAME,"btn_inventory")
+            assert add_and_remove_card_btns[index].text=="Remove"
+
+
+    @pytest.mark.parametrize("count_of_product_to_add_to_cart",["1","2","3","4"])
+    def test_add_to_cart_process(self,count_of_product_to_add_to_cart):
+        self.waitForElementVisible((By.ID,"user-name"))
+        
+        usernameInput = self.driver.find_element(By.ID, "user-name")
+        passwordInput = self.driver.find_element(By.ID,"password")
+        usernameInput.send_keys("standard_user")
+        passwordInput.send_keys("secret_sauce")
+        loginBtn = self.driver.find_element(By.ID,"login-button")
+        loginBtn.click()
+        
+        self.waitForElementVisible((By.CLASS_NAME,"btn_inventory"))
+        add_and_remove_card_btns=self.driver.find_elements(By.CLASS_NAME,"btn_inventory")
+
+        for index in range(int(count_of_product_to_add_to_cart)):
+            if(add_and_remove_card_btns[index].text=="Add to cart"):
+                add_and_remove_card_btns[index].click()            
+
+        assert self.driver.find_element(By.CLASS_NAME,"shopping_cart_badge").text==(count_of_product_to_add_to_cart)
 
