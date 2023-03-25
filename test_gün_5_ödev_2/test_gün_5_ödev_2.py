@@ -183,3 +183,7 @@ class Test_Sauce:
             self.driver.save_screenshot(f"{self.folderPath}/test_products-standard_user-secret_sauce.png")
             assert testResult
 
+        # TODO: urun fıyat uyusuyormu
+        # TODO: add to kart a tıklandıgında remove oluyor mu
+        # TODO: sepete ekleme yapıldıgında sepettekı sayı ıle uyusuyor mu
+
