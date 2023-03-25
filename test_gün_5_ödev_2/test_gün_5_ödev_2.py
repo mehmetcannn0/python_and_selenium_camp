@@ -224,7 +224,7 @@ class Test_Sauce:
             assert name_of_products.count(name)>0 and price_of_products.count(price)>0
 
 
-    @pytest.mark.parametrize("index",[1,2,3,4])
+    @pytest.mark.parametrize("index",[(1),(2),(3),(4)])
     def test_add_to_cart_button(self,index):
         self.waitForElementVisible((By.ID,"user-name"))
         
@@ -246,7 +246,7 @@ class Test_Sauce:
             assert add_and_remove_card_btns[index].text=="Remove"
 
 
-    @pytest.mark.parametrize("count_of_product_to_add_to_cart",["1","2","3","4"])
+    @pytest.mark.parametrize("count_of_product_to_add_to_cart",[(1),(2),(3),(4)])
     def test_add_to_cart_process(self,count_of_product_to_add_to_cart):
         self.waitForElementVisible((By.ID,"user-name"))
         
@@ -260,9 +260,9 @@ class Test_Sauce:
         self.waitForElementVisible((By.CLASS_NAME,"btn_inventory"))
         add_and_remove_card_btns=self.driver.find_elements(By.CLASS_NAME,"btn_inventory")
 
-        for index in range(int(count_of_product_to_add_to_cart)):
+        for index in range(count_of_product_to_add_to_cart):
             if(add_and_remove_card_btns[index].text=="Add to cart"):
                 add_and_remove_card_btns[index].click()            
 
-        assert self.driver.find_element(By.CLASS_NAME,"shopping_cart_badge").text==(count_of_product_to_add_to_cart)
+        assert self.driver.find_element(By.CLASS_NAME,"shopping_cart_badge").text==str(count_of_product_to_add_to_cart)
 
