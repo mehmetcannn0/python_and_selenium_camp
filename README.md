@@ -5,21 +5,21 @@
 ## PyTest'deki decoratorler
 
 - @pytest.mark.skip testleri herhangi bi koşul olmadan atlamamızı sağlar
-    ```sh
+    ```Python
     @pytest.mark.skip(reason="To show we can skip tests without any condition.")
     def test_any():
         assert True
     ```
 
 - @pytest.mark.skipif koşula bağlı olarak bir testi atlamamızı sağlar   
-    ```sh
+    ```Python
     @pytest.mark.skipif(sys.version_info < (3, 7), reason="requires python3.7 or higher")
     def test_function():
         ...
     ```
 
 - @pytest.mark.parametrize bağımsız değişkenlerin parametreleştirilmesini sağlar
-    ```sh
+    ```Python
     @pytest.mark.parametrize("username,password",[("1","1") , ("kullaniciadim","sifrem")])
     def test_invalid_login(self,username,password):
         self.waitForElementVisible((By.ID,"user-name"))
@@ -37,7 +37,7 @@
     > yield'den sonraki kısmı ıse test fonksıyonu calıstıktan sonra calısıyor yanı olusturdugumuz  
     > ortamı silmek/kaldırmak istedigimizde kullanabılırız
 
-    ```sh
+    ```Python
     @pytest.fixture()
     def ucgen():
         print("Ucgen olusturuldu")
@@ -50,7 +50,7 @@
     ```
     
 - @pytest.mark.xfail failed olacağını bildigimiz testleri belirtmek için kullanılır
-    ```sh    
+    ```Python    
     @pytest.mark.xfail
     def test_carpma ():
         assert carpma(3,3) == 10
