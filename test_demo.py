@@ -29,8 +29,8 @@ class Test_DemoClass:
 
     def getData():
         #veriyi al
-        excelFile = openpyxl.load_workbook("data/invalid_login.xlsx")
-        selectedSheet = excelFile["Sheet1"]
+        excelFile = openpyxl.load_workbook("data/data.xlsx")
+        selectedSheet = excelFile["invalid_login"]
         totalRows = selectedSheet.max_row
         data=[]
         for i in range(2, totalRows+1):
@@ -39,6 +39,7 @@ class Test_DemoClass:
             tupleData = (username,password)
             data.append(tupleData)
         return data
+    
     @pytest.mark.parametrize("username,password",getData())
     def test_invalid_login(self,username,password):
         self.waitForElementVisible((By.ID,"user-name"))
@@ -52,5 +53,6 @@ class Test_DemoClass:
         errorMessage = self.driver.find_element(By.XPATH,"//*[@id='login_button_container']/div/form/div[3]/h3")
         self.driver.save_screenshot(f"{self.folderPath}/test-invalid-login-{username}-{password}.png")
         assert errorMessage.text == "Epic sadface: Username and password do not match any user in this service"
+
     def waitForElementVisible(self,locator,timeout=5):
         WebDriverWait(self.driver,timeout).until(ec.visibility_of_element_located(locator))
